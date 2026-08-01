@@ -1,34 +1,40 @@
-import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { useAuth } from '@/contexts/AuthContext';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Building2, Loader2 } from 'lucide-react';
+import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Building2, Loader2 } from "lucide-react";
 
 export default function LoginPage() {
   const { login } = useAuth();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [formData, setFormData] = useState({
-    email: '',
-    password: ''
+    email: "",
+    password: "",
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
     setLoading(true);
 
     try {
       await login(formData);
-      navigate('/'); // AppRoutes will redirect to role-specific dashboard
+      navigate("/"); // AppRoutes will redirect to role-specific dashboard
     } catch (err: any) {
-      setError(err.response?.data?.message || err.message || 'Login failed');
+      setError(err.response?.data?.message || err.message || "Login failed");
     } finally {
       setLoading(false);
     }
+  };
+  const handleDemoAccount = () => {
+    setFormData({
+      email: "hassaathere@gmail.com",
+      password: "12345678",
+    });
   };
 
   return (
@@ -48,7 +54,9 @@ export default function LoginPage() {
             </div>
             <div>
               <h1 className="text-3xl font-bold">Hasan Enterprises</h1>
-              <p className="text-primary-foreground/70">Plot Purchase Management</p>
+              <p className="text-primary-foreground/70">
+                Plot Purchase Management
+              </p>
             </div>
           </div>
 
@@ -57,8 +65,8 @@ export default function LoginPage() {
               Streamlined Plot Management for Modern Real Estate
             </h2>
             <p className="text-lg text-primary-foreground/80">
-              Complete workflow management from plot selection to document issuance,
-              with milestone-based payments and transparent tracking.
+              Complete workflow management from plot selection to document
+              issuance, with milestone-based payments and transparent tracking.
             </p>
           </div>
         </div>
@@ -83,7 +91,9 @@ export default function LoginPage() {
                 required
                 placeholder="name@example.com"
                 value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
               />
             </div>
 
@@ -94,7 +104,9 @@ export default function LoginPage() {
                 type="password"
                 required
                 value={formData.password}
-                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, password: e.target.value })
+                }
               />
             </div>
 
@@ -111,17 +123,29 @@ export default function LoginPage() {
                   Logging in...
                 </>
               ) : (
-                'Sign In'
+                "Sign In"
               )}
             </Button>
           </form>
 
           <p className="text-center text-sm text-muted-foreground">
-            Don't have an account?{' '}
-            <Link to="/register" className="font-semibold text-primary hover:underline">
+            Don't have an account?{" "}
+            <Link
+              to="/register"
+              className="font-semibold text-primary hover:underline"
+            >
               Register here
             </Link>
           </p>
+
+          <Button
+            type="button"
+            variant="outline"
+            className="w-full"
+            onClick={handleDemoAccount}
+          >
+            Use Demo Account
+          </Button>
         </div>
       </div>
     </div>
